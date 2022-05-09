@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
  
-Route::get('/content', [CheckAgeController::class, 'index']);
+Route::get('/content', [CheckAgeController::class, 'index'])->middleware('check');
