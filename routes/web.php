@@ -22,4 +22,6 @@ Route::middleware([
     Route::get('/jokes', [JokeController::class, 'index'])->name('jokes.index');
     Route::post('/jokes', [JokeController::class, 'store'])->name('jokes.store');
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+    Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
+    Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
 });
