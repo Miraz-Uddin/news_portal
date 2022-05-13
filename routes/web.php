@@ -17,6 +17,7 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
-    Route::get('/jokes', [JokeController::class, 'index'])->name('jokes');
-    Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
+    Route::get('/jokes', [JokeController::class, 'index'])->name('jokes.index');
+    Route::post('/jokes', [JokeController::class, 'store'])->name('jokes.store');
+    Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 });
