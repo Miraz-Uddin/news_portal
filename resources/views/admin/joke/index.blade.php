@@ -1,10 +1,4 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Jokes') }}
-        </h2>
-    </x-slot> --}}
-
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -23,31 +17,54 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-9">
+            <div class="col-md-12 col-lg-9 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Joke Title</th>
+                                    <th scope="col">Stored</th>
+                                    <th scope="col">Edited</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($jokes as $joke)
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <th scope="row">
+                                      {{ $jokes->firstItem()+$loop->index }}
+                                    </th>
+                                    <td>
+                                      @if(!is_null($joke->joke_title))
+                                        {{$joke->joke_title}}
+                                        @else
+                                        - -
+                                      @endif
+                                    </td>
+                                    <td>
+                                      @if(!is_null($joke->created_at))
+                                        {{$joke->created_at->diffForHumans()}}
+                                        @else
+                                        - -
+                                      @endif
+                                    </td>
+                                    <td>
+                                      @if(!is_null($joke->updated_at))
+                                        {{$joke->updated_at}}
+                                        @else
+                                        - - 
+                                      @endif
+                                    </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        {{ $jokes->links() }}
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-md-12 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('jokes.store') }}" method="POST" novalidate>
@@ -62,7 +79,7 @@
                             @enderror
                             <div class="mb-3">
                                 <input type="submit" class="form-control btn btn-success btn-sm" id="joke_submit"
-                                    value="Submit">
+                                    value="Add Joke">
                             </div>
                         </form>
                     </div>

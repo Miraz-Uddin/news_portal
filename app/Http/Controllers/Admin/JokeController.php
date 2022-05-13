@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Joke;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Admin\JokeRequest;
 use Exception;
 use Carbon\Carbon;
@@ -18,7 +17,8 @@ class JokeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return view('admin.joke.index');
+        $jokes = Joke::latest()->paginate(5);
+        return view('admin.joke.index',compact('jokes'));
     }
 
     /**
