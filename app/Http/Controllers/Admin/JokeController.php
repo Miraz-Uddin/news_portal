@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\joke;
+use App\Models\Joke;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\JokeRequest;
+use Exception;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class JokeController extends Controller
 {
@@ -19,68 +22,24 @@ class JokeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // 
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\JokeRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(JokeRequest $request)
     {
-        dd($request->all());
+        try{
+            Joke::insert([
+                'joke_title' => $request->joke_title,
+                'created_at' => Carbon::now()
+            ]);
+            return back()->with('success','New joke has been inserted Successfully');
+        }catch(\Exception $e){
+            // throw new Exception($e->getMessage()) ;
+            Log::info('Joke Store Error: '.$e->getMessage());
+            return back()->with('error','New joke insertion failed !!!');
+        }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\joke  $joke
-     * @return \Illuminate\Http\Response
-     */
-    public function show(joke $joke)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\joke  $joke
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(joke $joke)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\joke  $joke
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, joke $joke)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\joke  $joke
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(joke $joke)
-    {
-        //
-    }
+    
 }
